@@ -31,13 +31,14 @@ public class Tank extends Frame {
     private static final int SPEED = 5;
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
-    private boolean moving = true;
+    private boolean moving = false;
     private TankFrame tf = null;//存窗口引用
 
     public Tank(int x, int y, Dir dir, TankFrame tf,int team) {
         this.x = x;
         this.tf = tf;
         this.y = y;
+        this.dir = dir;
         this.dir = dir;
         this.team=team;
     }

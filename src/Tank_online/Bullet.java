@@ -60,11 +60,13 @@ public class Bullet {
         live = !live;
     }
 
-    protected void isHit(Tank tank) {
+    protected boolean isHit(Tank tank) {
         if (new Rectangle(this.x, this.y, WIDTH, HEIGHT).intersects(new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT)) && this.team != tank.team) {
             this.die();
             tank.die();
+            return true;
         }
+        else return false;
     }
 
     private void move() {

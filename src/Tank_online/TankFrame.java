@@ -58,7 +58,13 @@ public class TankFrame extends Frame {
         }
         for (int i = 0; i < Bullets.size(); i++) {
             for (int j = 0; j < enemyTank.size(); j++) {
-                Bullets.get(i).isHit(enemyTank.get(j));//这个子弹是否打到了地方
+               if(Bullets.get(i).isHit(enemyTank.get(j)))//这个子弹是否打到了地方
+                {
+                    for (int i1 = 0; i1 < 16; i1++) {
+                        g.drawImage(ResourceMgr.Explode[i1],enemyTank.get(j).getX(),enemyTank.get(j).getY(),null);
+
+                    }
+                }
             }
         }
     }
