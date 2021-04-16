@@ -1,7 +1,6 @@
 package Tank_online;
 
 
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,14 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TankFrame extends Frame {
-    Tank myTank=new Tank(100,200,Dir.DOWN,this);
-//    Tank enemyTank=new Tank(400,310,Dir.DOWN,this);
-    static final int GAME_WIDTH=800,GAME_HEIGHT=600;
-    List<Tank_online.Bullet> Bullets=new ArrayList<Bullet>();//子弹容器用来存子弹
+    Tank myTank = new Tank(100, 200, Dir.DOWN, this);
+    //    Tank enemyTank=new Tank(400,310,Dir.DOWN,this);
+    static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+    List<Tank_online.Bullet> Bullets = new ArrayList<Bullet>();//子弹容器用来存子弹
+    List<Tank> enemyTank = new ArrayList<>();//敌人队列
     private static final int SPEED = 10;
-    public TankFrame()
-    {
-        setSize(800,600);
+
+    public TankFrame() {
+        setSize(800, 600);
         setResizable(false);
         setTitle("tank_war");
         addWindowListener(new WindowAdapter() {
@@ -29,19 +29,23 @@ public class TankFrame extends Frame {
         });
         addKeyListener(new MyKeyListener());
         setVisible(true);
+        for (int i = 0; i < 5; i++) {
+            enemyTank.add(new Tank(80 + i * 30, 80 + i * 30, Dir.DOWN, this));
+        }
     }
 
 
     @Override
     public void paint(Graphics g) {
-        Color c=g.getColor();
+        Color c = g.getColor();
         g.setColor(Color.WHITE);
-        g.drawString("子弹的数量:"+Bullets.size(),20,50);
+        g.drawString("子弹的数量:" + Bullets.size(), 20, 50);
+        g.drawString("敌人的数量:" + enemyTank.size(), 20, 80);
         g.setColor(c);
         myTank.paint(g);//画笔给TANK
 //        enemyTank.paint(g);
         //利用迭代器循环时，中间不可手动进行删除
-        for(int i=0;i<Bullets.size();i++) {//增强for循环遍历画子弹
+        for (int i = 0; i < Bullets.size(); i++) {//增强for循环遍历画子弹
             Bullets.get(i).paint(g);//画笔给子弹
 //            if(Bullets.get(i).getX()<enemyTank.getX()+50&&Bullets.get(i).getY()==enemyTank.getY())
 //            {
@@ -49,32 +53,42 @@ public class TankFrame extends Frame {
 //                enemyTank.live=false;
 //            }
         }
-
+        for (int i = 0; i < enemyTank.size(); i++) {
+            enemyTank.get(i).paint(g);
         }
+        for (int i = 0; i < Bullets.size(); i++) {
+            for (int j = 0; j < enemyTank.size(); j++) {
+                Bullets.get(i).isHit(enemyTank.get(j));//这个子弹是否打到了地方
+            }
+        }
+    }
+
+
     //键盘监听器
     //先在内存里面画，画完再一次性画到屏幕上，内存上的图片也有一只画笔
     //双缓冲
-    Image offScreenImage=null;
+    Image offScreenImage = null;
+
     @Override
-    public void update(Graphics g)
-    {
-        if(offScreenImage==null)
-        {
-            offScreenImage=this.createImage(GAME_WIDTH,GAME_HEIGHT);
+    public void update(Graphics g) {
+        if (offScreenImage == null) {
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
         }
-        Graphics gOffScreen=offScreenImage.getGraphics();
-        Color c=gOffScreen.getColor();
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color c = gOffScreen.getColor();
         gOffScreen.setColor(Color.BLACK);
-        gOffScreen.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         gOffScreen.setColor(c);
         paint(gOffScreen);
-        g.drawImage(offScreenImage,0,0,null);
+        g.drawImage(offScreenImage, 0, 0, null);
     }
-    class MyKeyListener implements KeyListener{
-        boolean BL=false;
-        boolean BR=false;
-        boolean BU=false;
-        boolean BD=false;
+
+    class MyKeyListener implements KeyListener {
+        boolean BL = false;
+        boolean BR = false;
+        boolean BU = false;
+        boolean BD = false;
+
         @Override
         public void keyTyped(KeyEvent e) {
 
@@ -83,12 +97,19 @@ public class TankFrame extends Frame {
         @Override
         public void keyPressed(KeyEvent e) {
 
-            switch (e.getKeyCode())
-            {
-                case KeyEvent.VK_UP:BU=true;break;
-                case KeyEvent.VK_LEFT:BL=true;break;
-                case KeyEvent.VK_DOWN:BD=true;break;
-                case KeyEvent.VK_RIGHT:BR=true;break;
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_UP:
+                    BU = true;
+                    break;
+                case KeyEvent.VK_LEFT:
+                    BL = true;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    BD = true;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    BR = true;
+                    break;
                 case KeyEvent.VK_SPACE:
             }
             setMainTankDir();
@@ -100,19 +121,29 @@ public class TankFrame extends Frame {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            switch (e.getKeyCode())
-            {
-                case KeyEvent.VK_UP:BU=false;break;
-                case KeyEvent.VK_LEFT:BL=false;break;
-                case KeyEvent.VK_DOWN:BD=false;break;
-                case KeyEvent.VK_RIGHT:BR=false;break;
-                case KeyEvent.VK_J:myTank.fric();break;//发射子弹
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_UP:
+                    BU = false;
+                    break;
+                case KeyEvent.VK_LEFT:
+                    BL = false;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    BD = false;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    BR = false;
+                    break;
+                case KeyEvent.VK_J:
+                    myTank.fric();
+                    break;//发射子弹
             }
             setMainTankDir();
-           setEnemyTankDir();
+            setEnemyTankDir();
 
-            }
-        private void setEnemyTankDir(){
+        }
+
+        private void setEnemyTankDir() {
 //            if(enemyTank.getY()>60)
 //            enemyTank.setDir(Dir.UP);
 //            else
@@ -120,8 +151,9 @@ public class TankFrame extends Frame {
 //
 //            enemyTank.Move(true);
         }
-        private void setMainTankDir(){
-            if(!BR&&!BD&&!BL&&!BU)myTank.Move(false);
+
+        private void setMainTankDir() {
+            if (!BR && !BD && !BL && !BU) myTank.Move(false);
             else {
                 myTank.Move(true);
                 if (BR) myTank.setDir(Dir.RIGHT);
