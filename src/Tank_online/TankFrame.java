@@ -7,7 +7,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
-    int x=200,y=200;
+    Tank myTank=new Tank(100,200,Dir.DOWN);
+    private static final int SPEED = 10;
     public TankFrame()
     {
         setSize(800,600);
@@ -25,8 +26,7 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.black);
-        g.fillRect(x,y,50,50);
+       myTank.paint(g);
     }
     //键盘监听器
     class MyKeyListener implements KeyListener{
@@ -49,11 +49,9 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_DOWN:BD=true;break;
                 case KeyEvent.VK_RIGHT:BR=true;break;
             }
-            if(BR)x+=20;
-            if(BD)y+=20;
-            if(BL)x-=20;
-            if(BU)y-=20;
+            setMainTankDir();
             repaint();
+
         }
 
         @Override
@@ -65,6 +63,15 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_DOWN:BD=false;break;
                 case KeyEvent.VK_RIGHT:BR=false;break;
             }
+            setMainTankDir();
         }
+        private void setMainTankDir(){
+            if(BR)myTank.setDir( Dir.RIGHT);
+            if(BD)myTank.setDir(Dir.DOWN);
+            if(BL)myTank.setDir(Dir.LEFT);
+            if(BU)myTank.setDir(Dir.UP);
+            if(!BR&&!BD&&!BL&&!BU)myTank.setDir(Dir.STOP);
+        }
+
     }
 }
