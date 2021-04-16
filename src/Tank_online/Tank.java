@@ -17,8 +17,8 @@ public class Tank extends Frame{
 
     private Dir dir;
     private static final int SPEED=10;
-    private static final int WIDTH=50;
-    private static final int HEIGHT=50;
+    public static final int WIDTH=50;
+    public static final int HEIGHT=50;
     private boolean moving=false;
     private TankFrame tf=null;//存窗口引用
     public Tank(int x, int y, Dir dir,TankFrame tf) {
@@ -58,7 +58,9 @@ public class Tank extends Frame{
     }
 
     public void fric() {
-       tf.Bullets.add(new Bullet(this.x+10,this.y+10,this.dir,this.tf));
+        int bX=this.x+Tank.WIDTH/2-Bullet.WIDTH/2;
+        int bY=this.y+Tank.HEIGHT/2-Bullet.HEIGHT/2;
+        tf.Bullets.add(new Bullet(bX,bY,this.dir,this.tf));
        //画子弹是再Frame上画的所以需要利用窗口的引用
     }
 }
