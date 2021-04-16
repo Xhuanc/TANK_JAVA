@@ -37,7 +37,7 @@ public class Tank extends Frame{
     }
 
     public void fric() {
-       tf.Bullets.add( new Bullet(this.x,this.y,this.dir));
+       tf.Bullets.add(new Bullet(this.x,this.y,this.dir,this.tf));
        //画子弹是再Frame上画的所以需要利用窗口的引用
     }
 }

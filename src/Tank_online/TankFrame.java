@@ -29,10 +29,16 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-       myTank.paint(g);//画笔给TANK
-        for(Tank_online.Bullet bullet: Bullets) {//增强for循环遍历画子弹
-            bullet.paint(g);//画笔给子弹
+        Color c=g.getColor();
+        g.setColor(Color.WHITE);
+        g.drawString("子弹的数量:"+Bullets.size(),20,50);
+        g.setColor(c);
+        myTank.paint(g);//画笔给TANK
+        //利用迭代器循环时，中间不可手动进行删除
+        for(int i=0;i<Bullets.size();i++) {//增强for循环遍历画子弹
+            Bullets.get(i).paint(g);//画笔给子弹
         }
+
         }
     //键盘监听器
     //先在内存里面画，画完再一次性画到屏幕上，内存上的图片也有一只画笔
