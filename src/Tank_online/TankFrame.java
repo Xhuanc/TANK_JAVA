@@ -1,4 +1,7 @@
 package Tank_online;
+
+
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -9,6 +12,7 @@ import java.util.List;
 
 public class TankFrame extends Frame {
     Tank myTank=new Tank(100,200,Dir.DOWN,this);
+//    Tank enemyTank=new Tank(400,310,Dir.DOWN,this);
     static final int GAME_WIDTH=800,GAME_HEIGHT=600;
     List<Tank_online.Bullet> Bullets=new ArrayList<Bullet>();//子弹容器用来存子弹
     private static final int SPEED = 10;
@@ -27,6 +31,7 @@ public class TankFrame extends Frame {
         setVisible(true);
     }
 
+
     @Override
     public void paint(Graphics g) {
         Color c=g.getColor();
@@ -34,9 +39,15 @@ public class TankFrame extends Frame {
         g.drawString("子弹的数量:"+Bullets.size(),20,50);
         g.setColor(c);
         myTank.paint(g);//画笔给TANK
+//        enemyTank.paint(g);
         //利用迭代器循环时，中间不可手动进行删除
         for(int i=0;i<Bullets.size();i++) {//增强for循环遍历画子弹
             Bullets.get(i).paint(g);//画笔给子弹
+//            if(Bullets.get(i).getX()<enemyTank.getX()+50&&Bullets.get(i).getY()==enemyTank.getY())
+//            {
+//                Bullets.get(i).live=false;
+//                enemyTank.live=false;
+//            }
         }
 
         }
@@ -81,6 +92,8 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_SPACE:
             }
             setMainTankDir();
+            setEnemyTankDir();
+
             repaint();
 
         }
@@ -93,11 +106,20 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_LEFT:BL=false;break;
                 case KeyEvent.VK_DOWN:BD=false;break;
                 case KeyEvent.VK_RIGHT:BR=false;break;
-                case KeyEvent.VK_J:myTank.fric();//发射子弹
+                case KeyEvent.VK_J:myTank.fric();break;//发射子弹
             }
             setMainTankDir();
-        }
+           setEnemyTankDir();
 
+            }
+        private void setEnemyTankDir(){
+//            if(enemyTank.getY()>60)
+//            enemyTank.setDir(Dir.UP);
+//            else
+//            enemyTank.setDir(Dir.DOWN);
+//
+//            enemyTank.Move(true);
+        }
         private void setMainTankDir(){
             if(!BR&&!BD&&!BL&&!BU)myTank.Move(false);
             else {

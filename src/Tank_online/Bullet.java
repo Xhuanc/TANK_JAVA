@@ -6,6 +6,15 @@ public class Bullet {
     private static final int SPEED=10;
     private int x,y;
     private Dir dir;
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     private static final int WIDTH=30,HEIGHT=30;
     private TankFrame tf=null;//存窗口引用
     boolean live=true;
@@ -21,10 +30,13 @@ public class Bullet {
         {
             tf.Bullets.remove(this);
         }
-        Color c = g.getColor();
-        g.setColor(Color.red);
-        g.fillOval(x, y, WIDTH, HEIGHT);
-        g.setColor(c);
+        switch (dir)
+        {
+            case LEFT: g.drawImage(ResourceMgr.BulletL,x-20,y+15,null);;break;
+            case RIGHT: g.drawImage(ResourceMgr.BulletR,x+20,y+15,null);;break;
+            case UP: g.drawImage(ResourceMgr.BulletU,x+20,y-15,null);break;
+            case DOWN: g.drawImage(ResourceMgr.BulletD,x+20,y+15,null);break;
+        }
 
         move();
     }

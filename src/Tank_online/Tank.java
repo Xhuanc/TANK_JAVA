@@ -4,8 +4,21 @@ import java.awt.*;
 
 public class Tank extends Frame{
     private int x,y;
+    boolean live=true;
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
     private Dir dir;
     private static final int SPEED=10;
+    private static final int WIDTH=50;
+    private static final int HEIGHT=50;
     private boolean moving=false;
     private TankFrame tf=null;//存窗口引用
     public Tank(int x, int y, Dir dir,TankFrame tf) {
@@ -24,8 +37,16 @@ public class Tank extends Frame{
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(new Color(0,100,255));
-        g.fillRect(x,y,50,50);
+        if(!live)return;
+        Color c=g.getColor();
+        switch (dir)
+        {
+            case LEFT: g.drawImage(ResourceMgr.tankL,x,y,null);;break;
+            case RIGHT: g.drawImage(ResourceMgr.tankR,x,y,null);;break;
+            case UP: g.drawImage(ResourceMgr.tankU,x,y,null);break;
+            case DOWN: g.drawImage(ResourceMgr.tankD,x,y,null);break;
+        }
+
         if(moving)
         switch (dir)
         {
@@ -37,7 +58,7 @@ public class Tank extends Frame{
     }
 
     public void fric() {
-       tf.Bullets.add(new Bullet(this.x,this.y,this.dir,this.tf));
+       tf.Bullets.add(new Bullet(this.x+10,this.y+10,this.dir,this.tf));
        //画子弹是再Frame上画的所以需要利用窗口的引用
     }
 }
