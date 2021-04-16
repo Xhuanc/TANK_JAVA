@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TankFrame extends Frame {
-    Tank myTank = new Tank(100, 200, Dir.DOWN, this);
+    Tank myTank = new Tank(100, 200, Dir.DOWN, this,1);
     //    Tank enemyTank=new Tank(400,310,Dir.DOWN,this);
     static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
     List<Tank_online.Bullet> Bullets = new ArrayList<Bullet>();//子弹容器用来存子弹
@@ -30,7 +30,7 @@ public class TankFrame extends Frame {
         addKeyListener(new MyKeyListener());
         setVisible(true);
         for (int i = 0; i < 5; i++) {
-            enemyTank.add(new Tank(80 + i * 30, 80 + i * 30, Dir.DOWN, this));
+            enemyTank.add(new Tank(80 + i * 30, 80 + i * 30, Dir.DOWN, this,0));
         }
     }
 
@@ -135,7 +135,7 @@ public class TankFrame extends Frame {
                     BR = false;
                     break;
                 case KeyEvent.VK_J:
-                    myTank.fric();
+                    myTank.fric(myTank.team);
                     break;//发射子弹
             }
             setMainTankDir();

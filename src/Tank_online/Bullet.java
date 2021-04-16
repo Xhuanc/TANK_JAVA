@@ -5,6 +5,7 @@ import java.awt.*;
 public class Bullet {
     private static final int SPEED = 10;
     private int x, y;
+    int team = 0;//0为bad 1为good
     private Dir dir;
     public static int WIDTH = ResourceMgr.BulletL.getWidth();
     public static int HEIGHT = ResourceMgr.BulletL.getHeight();
@@ -21,11 +22,12 @@ public class Bullet {
     private TankFrame tf = null;//存窗口引用
     boolean live = true;
 
-    public Bullet(int x, int y, Dir dir, TankFrame tankFrame) {
+    public Bullet(int x, int y, Dir dir, TankFrame tankFrame, int team) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tankFrame;
+        this.team = team;
         live = true;
     }
 
@@ -59,7 +61,7 @@ public class Bullet {
     }
 
     protected void isHit(Tank tank) {
-        if (new Rectangle(this.x, this.y, WIDTH, HEIGHT).intersects(new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT))) {
+        if (new Rectangle(this.x, this.y, WIDTH, HEIGHT).intersects(new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT)) && this.team != tank.team) {
             this.die();
             tank.die();
         }
