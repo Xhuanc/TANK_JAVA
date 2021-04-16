@@ -5,11 +5,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
+    int x=200,y=200;
     public TankFrame()
     {
         setSize(800,600);
         setResizable(false);
-        setTitle("test");
+        setTitle("tank_war");
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -21,7 +22,9 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(new Color(100,200,210));
-        g.fillRect(200,200,50,50);
+        g.setColor(Color.black);
+        g.fillRect(x,y,50,50);
+        x+=10;
+        y+=10;
     }
 }
