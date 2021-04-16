@@ -30,7 +30,10 @@ public class TankFrame extends Frame {
     }
     //键盘监听器
     class MyKeyListener implements KeyListener{
-
+        boolean BL=false;
+        boolean BR=false;
+        boolean BU=false;
+        boolean BD=false;
         @Override
         public void keyTyped(KeyEvent e) {
 
@@ -38,24 +41,29 @@ public class TankFrame extends Frame {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            char key=e.getKeyChar();
-            switch (key)
+
+            switch (e.getKeyCode())
             {
-                case 'w':y-=20;break;
-                case 'a':x-=20;break;
-                case 's':y+=10;break;
-                case 'd':x+=10;break;
+                case KeyEvent.VK_UP:BU=true;break;
+                case KeyEvent.VK_LEFT:BL=true;break;
+                case KeyEvent.VK_DOWN:BD=true;break;
+                case KeyEvent.VK_RIGHT:BR=true;break;
             }
+            if(BR)x+=20;
+            if(BD)y+=20;
+            if(BL)x-=20;
+            if(BU)y-=20;
             repaint();
-            char lastkey=key;
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            int key=e.getKeyCode();
-            if(key=='A')
+            switch (e.getKeyCode())
             {
-                repaint();
+                case KeyEvent.VK_UP:BU=false;break;
+                case KeyEvent.VK_LEFT:BL=false;break;
+                case KeyEvent.VK_DOWN:BD=false;break;
+                case KeyEvent.VK_RIGHT:BR=false;break;
             }
         }
     }
