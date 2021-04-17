@@ -11,14 +11,17 @@ import java.util.List;
 
 public class TankFrame extends Frame {
     Tank myTank = new Tank(100, 200, Dir.DOWN, this,1);
+
     //    Tank enemyTank=new Tank(400,310,Dir.DOWN,this);
-    static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+    static final int GAME_WIDTH = 1080, GAME_HEIGHT = 720;
     List<Tank_online.Bullet> Bullets = new ArrayList<Bullet>();//子弹容器用来存子弹
     List<Tank> enemyTank = new ArrayList<>();//敌人队列
+    List<Explode> explodes=new ArrayList<>();
+
     private static final int SPEED = 10;
 
     public TankFrame() {
-        setSize(800, 600);
+        setSize(GAME_WIDTH, GAME_HEIGHT);
         setResizable(false);
         setTitle("tank_war");
         addWindowListener(new WindowAdapter() {
@@ -29,9 +32,9 @@ public class TankFrame extends Frame {
         });
         addKeyListener(new MyKeyListener());
         setVisible(true);
-        for (int i = 0; i < 5; i++) {
-            enemyTank.add(new Tank(80 + i * 30, 80 + i * 30, Dir.DOWN, this,0));
-        }
+//        for (int i = 0; i < 5; i++) {
+//            enemyTank.add(new Tank(80 + i * 30, 80 + i * 30, Dir.DOWN, this,0));
+//        }
     }
 
 
@@ -56,15 +59,14 @@ public class TankFrame extends Frame {
         for (int i = 0; i < enemyTank.size(); i++) {
             enemyTank.get(i).paint(g);
         }
+        for(int i=0;i<explodes.size();i++)
+        {
+            explodes.get(i).paint(g);
+        }
+        //碰撞检测
         for (int i = 0; i < Bullets.size(); i++) {
             for (int j = 0; j < enemyTank.size(); j++) {
-               if(Bullets.get(i).isHit(enemyTank.get(j)))//这个子弹是否打到了地方
-                {
-                    for (int i1 = 0; i1 < 16; i1++) {
-                        g.drawImage(ResourceMgr.Explode[i1],enemyTank.get(j).getX(),enemyTank.get(j).getY(),null);
-
-                    }
-                }
+               Bullets.get(i).isHit(enemyTank.get(j));//这个子弹是否打到了地方
             }
         }
     }
@@ -142,6 +144,7 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_J:
                     myTank.fric(myTank.team);
+                    new Audio("src\\Voice\\tank_fire.wav").start();
                     break;//发射子弹
             }
             setMainTankDir();

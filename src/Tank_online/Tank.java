@@ -6,9 +6,14 @@ import java.util.Random;
 public class Tank extends Frame {
     private int x, y;
     int team;//0为bad 1为good
-
+    Rectangle rec=new Rectangle();
     public int getTeam() {
         return team;
+    }
+
+    public void randomDir() {
+        if (team == 0 && random.nextInt(10) > 8)
+            this.dir = Dir.values()[random.nextInt(4)];
     }
 
     public void setTeam(int team) {
@@ -16,7 +21,8 @@ public class Tank extends Frame {
     }
 
     boolean live = true;
-    private Random random=new Random();
+    private Random random = new Random();
+
     @Override
     public int getX() {
         return x;
@@ -31,16 +37,20 @@ public class Tank extends Frame {
     private static final int SPEED = 5;
     public static final int WIDTH = 50;
     public static final int HEIGHT = 50;
-    private boolean moving = false;
+    private boolean moving = true;
     private TankFrame tf = null;//存窗口引用
 
-    public Tank(int x, int y, Dir dir, TankFrame tf,int team) {
+    public Tank(int x, int y, Dir dir, TankFrame tf, int team) {
         this.x = x;
         this.tf = tf;
         this.y = y;
         this.dir = dir;
         this.dir = dir;
-        this.team=team;
+        this.team = team;
+        rec.x=x;
+        rec.y=y;
+        rec.height=Tank.HEIGHT;
+        rec.width=Tank.WIDTH;
     }
 
     public void Move(boolean flag) {
@@ -55,44 +65,63 @@ public class Tank extends Frame {
         live = !live;
     }
 
-    @Override
-    public void paint(Graphics g) {
+    void move(Graphics g) {
         if (!live) tf.enemyTank.remove(this);//敌人死了
         Color c = g.getColor();
         switch (dir) {
             case LEFT:
-                g.drawImage(ResourceMgr.tankL, x, y, null);
-
+                if (team == 1)
+                    g.drawImage(ResourceMgr.GoodTankL, x, y, null);
+                else
+                    g.drawImage(ResourceMgr.BadTankL, x, y, null);
                 break;
             case RIGHT:
-                g.drawImage(ResourceMgr.tankR, x, y, null);
-
+                if (team == 1)
+                    g.drawImage(ResourceMgr.GoodTankR, x, y, null);
+                else
+                    g.drawImage(ResourceMgr.BadTankR, x, y, null);
                 break;
             case UP:
-                g.drawImage(ResourceMgr.tankU, x, y, null);
+                if (team == 1)
+                    g.drawImage(ResourceMgr.GoodTankU, x, y, null);
+                else
+                    g.drawImage(ResourceMgr.BadTankU, x, y, null);
                 break;
             case DOWN:
-                g.drawImage(ResourceMgr.tankD, x, y, null);
+                if (team == 1)
+                    g.drawImage(ResourceMgr.GoodTankD, x, y, null);
+                else
+                    g.drawImage(ResourceMgr.BadTankD, x, y, null);
                 break;
         }
-
-        if (moving)
+        randomDir();
+        if (moving) {
             switch (dir) {
                 case LEFT:
-                    x -= SPEED;
+                    if (x > 0)
+                        x -= SPEED;
                     break;
                 case RIGHT:
-                    x += SPEED;
+                    if (x < 1080)
+                        x += SPEED;
                     break;
                 case UP:
-                    y -= SPEED;
+                    if (y > 40)
+                        y -= SPEED;
                     break;
                 case DOWN:
-                    y += SPEED;
+                    if (y < TankFrame.GAME_HEIGHT - 70)
+                        y += SPEED;
                     break;
             }
-        if(random.nextInt()%5==0&&team==0)
-        {
+        }
+
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        move(g);
+        if (random.nextInt(100) > 90 && team == 0) {
             fric(team);
         }
     }
@@ -100,7 +129,7 @@ public class Tank extends Frame {
     public void fric(int team) {
         int bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
         int bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
-        tf.Bullets.add(new Bullet(bX, bY, this.dir, this.tf,team));
+        tf.Bullets.add(new Bullet(bX, bY, this.dir, this.tf, team));
         //画子弹是再Frame上画的所以需要利用窗口的引用
     }
 }

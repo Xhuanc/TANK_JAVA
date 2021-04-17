@@ -9,7 +9,7 @@ public class Bullet {
     private Dir dir;
     public static int WIDTH = ResourceMgr.BulletL.getWidth();
     public static int HEIGHT = ResourceMgr.BulletL.getHeight();
-
+    Rectangle rec=new Rectangle();
     public int getX() {
         return x;
     }
@@ -25,6 +25,10 @@ public class Bullet {
     public Bullet(int x, int y, Dir dir, TankFrame tankFrame, int team) {
         this.x = x;
         this.y = y;
+        rec.x=x;
+        rec.y=y;
+        rec.height=HEIGHT;
+        rec.width=WIDTH;
         this.dir = dir;
         this.tf = tankFrame;
         this.team = team;
@@ -60,13 +64,26 @@ public class Bullet {
         live = !live;
     }
 
-    protected boolean isHit(Tank tank) {
-        if (new Rectangle(this.x, this.y, WIDTH, HEIGHT).intersects(new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT)) && this.team != tank.team) {
+    protected void isHit(Tank tank) {
+//        这是需要较大内存
+//        if (new Rectangle(this.x, this.y, WIDTH, HEIGHT).intersects(new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT)) && this.team != tank.team) {
+//            this.die();
+//            tank.die();
+//            int eX=tank.getX()+tank.WIDTH/2-Explode.WIDTH/2;
+//            int eY=tank.getY()+tank.HEIGHT/2-Explode.HEIGHT/2;
+//            tf.explodes.add(new Explode(eX,eY,this.tf));
+//        }
+            rec.x=this.x;
+            rec.y=this.y;
+            tank.rec.x=tank.getX();
+            tank.rec.y=tank.getY();
+        if (rec.intersects(tank.rec)&&this.team != tank.team) {
             this.die();
             tank.die();
-            return true;
+            int eX=tank.getX()+tank.WIDTH/2-Explode.WIDTH/2;
+            int eY=tank.getY()+tank.HEIGHT/2-Explode.HEIGHT/2;
+            tf.explodes.add(new Explode(eX,eY,this.tf));
         }
-        else return false;
     }
 
     private void move() {
