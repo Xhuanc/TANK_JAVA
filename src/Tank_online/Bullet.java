@@ -2,7 +2,7 @@ package Tank_online;
 
 import java.awt.*;
 
-public class Bullet {
+public class Bullet extends GameObject{
     private static final int SPEED = 10;
     private int x, y;
     int team = 0;//0为bad 1为good
@@ -39,7 +39,7 @@ public class Bullet {
     public void paint(Graphics g) {
         if (this.live == false)//子弹死亡则把他remove掉
         {
-            gameModel.Bullets.remove(this);
+            gameModel.remove(this);
         }
         switch (dir) {
             case LEFT:
@@ -83,7 +83,7 @@ public class Bullet {
             tank.die();
             int eX=tank.getX()+tank.WIDTH/2-Explode.WIDTH/2;
             int eY=tank.getY()+tank.HEIGHT/2-Explode.HEIGHT/2;
-            gameModel.explodes.add(new Explode(eX,eY,gameModel));
+            gameModel.add(new Explode(eX,eY,gameModel));
         }
     }
 

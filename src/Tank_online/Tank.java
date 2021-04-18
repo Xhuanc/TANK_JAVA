@@ -3,14 +3,14 @@ package Tank_online;
 import java.awt.*;
 import java.util.Random;
 
-public class Tank extends Frame {
+public class Tank  extends GameObject{
     private int x, y;
     int team;//0为bad 1为good
     Rectangle rec=new Rectangle();
     public int getTeam() {
         return team;
     }
-
+    public Dir getDir(){return  this.dir;}
     public void randomDir() {
         if (team == 0 && random.nextInt(10) > 8)
             this.dir = Dir.values()[random.nextInt(4)];
@@ -23,12 +23,12 @@ public class Tank extends Frame {
     boolean live = true;
     private Random random = new Random();
 
-    @Override
+
     public int getX() {
         return x;
     }
 
-    @Override
+
     public int getY() {
         return y;
     }
@@ -66,7 +66,7 @@ public class Tank extends Frame {
     }
 
     void move(Graphics g) {
-        if (!live) gameModel.enemyTank.remove(this);//敌人死了
+        if (!live) gameModel.remove(this);//敌人死了
         Color c = g.getColor();
         switch (dir) {
             case LEFT:
@@ -118,7 +118,7 @@ public class Tank extends Frame {
 
     }
 
-    @Override
+
     public void paint(Graphics g) {
         move(g);
         if (random.nextInt(100) > 90 && team == 0) {
@@ -129,7 +129,7 @@ public class Tank extends Frame {
     public void fric(int team) {
         int bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
         int bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
-        gameModel.Bullets.add(new Bullet(bX, bY, this.dir, gameModel, team));
+        gameModel.add(new Bullet(bX, bY, this.dir, gameModel, team));
         //画子弹是再Frame上画的所以需要利用窗口的引用
     }
 }

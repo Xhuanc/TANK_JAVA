@@ -3,7 +3,7 @@ package Tank_online;
 import java.awt.*;
 import java.lang.ref.PhantomReference;
 
-public class Explode {
+public class Explode extends GameObject{
     public static final int WIDTH=ResourceMgr.Explode[0].getWidth();
     public static final int HEIGHT=ResourceMgr.Explode[0].getHeight();
     private int x,y;
@@ -20,7 +20,7 @@ public class Explode {
             g.drawImage(ResourceMgr.Explode[i],x,y ,null);
         }
         new Audio("src\\Voice\\explode.wav").start();
-        gameModel.explodes.remove(this);
+        gameModel.remove(this);
 
     }
 }
