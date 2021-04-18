@@ -65,7 +65,7 @@ public class Bullet extends GameObject{
         live = !live;
     }
 
-    protected void isHit(Tank tank) {
+    protected boolean isHit(Tank tank) {
 //        这是需要较大内存
 //        if (new Rectangle(this.x, this.y, WIDTH, HEIGHT).intersects(new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT)) && this.team != tank.team) {
 //            this.die();
@@ -84,7 +84,9 @@ public class Bullet extends GameObject{
             int eX=tank.getX()+tank.WIDTH/2-Explode.WIDTH/2;
             int eY=tank.getY()+tank.HEIGHT/2-Explode.HEIGHT/2;
             gameModel.add(new Explode(eX,eY,gameModel));
+            return true;
         }
+        else return false;
     }
 
     private void move() {

@@ -13,6 +13,7 @@ public class GameModel {
     List<GameObject> GameObjects=new ArrayList<>();
     Bullet_Hit_Tank bullet_hit_tank = new Bullet_Hit_Tank();
     Tank_Hit_Tank tank_hit_tank = new Tank_Hit_Tank();
+    CollideChain collideChain =new CollideChain();
     public GameModel() {
     }
     public void add(GameObject go)
@@ -58,8 +59,7 @@ public class GameModel {
                 GameObject o1=GameObjects.get(j);
                 GameObject o2=GameObjects.get(i);
                 //策略 比较器
-                bullet_hit_tank.TouchEach(o1,o2);
-                tank_hit_tank.TouchEach(o1,o2);
+               collideChain.collide(o1,o2);
             }
         }
     }
