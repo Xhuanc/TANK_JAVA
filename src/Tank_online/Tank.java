@@ -39,10 +39,11 @@ public class Tank extends Frame {
     public static final int HEIGHT = 50;
     private boolean moving = true;
     private TankFrame tf = null;//存窗口引用
+    private GameModel gameModel = null;//存窗口引用
 
-    public Tank(int x, int y, Dir dir, TankFrame tf, int team) {
+    public Tank(int x, int y, Dir dir,GameModel gameModel, int team) {
         this.x = x;
-        this.tf = tf;
+        this.gameModel = gameModel;
         this.y = y;
         this.dir = dir;
         this.team = team;
@@ -65,7 +66,7 @@ public class Tank extends Frame {
     }
 
     void move(Graphics g) {
-        if (!live) tf.enemyTank.remove(this);//敌人死了
+        if (!live) gameModel.enemyTank.remove(this);//敌人死了
         Color c = g.getColor();
         switch (dir) {
             case LEFT:
@@ -109,7 +110,7 @@ public class Tank extends Frame {
                         y -= SPEED;
                     break;
                 case DOWN:
-                    if (y < TankFrame.GAME_HEIGHT - 70)
+                    if (y < gameModel.GAME_HEIGHT - 70)
                         y += SPEED;
                     break;
             }
@@ -128,7 +129,7 @@ public class Tank extends Frame {
     public void fric(int team) {
         int bX = this.x + Tank.WIDTH / 2 - Bullet.WIDTH / 2;
         int bY = this.y + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
-        tf.Bullets.add(new Bullet(bX, bY, this.dir, this.tf, team));
+        gameModel.Bullets.add(new Bullet(bX, bY, this.dir, gameModel, team));
         //画子弹是再Frame上画的所以需要利用窗口的引用
     }
 }

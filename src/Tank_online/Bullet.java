@@ -20,9 +20,10 @@ public class Bullet {
 
 
     private TankFrame tf = null;//存窗口引用
+    private GameModel gameModel = null;//存窗口引用
     boolean live = true;
 
-    public Bullet(int x, int y, Dir dir, TankFrame tankFrame, int team) {
+    public Bullet(int x, int y, Dir dir,  GameModel gameModel, int team) {
         this.x = x;
         this.y = y;
         rec.x=x;
@@ -30,7 +31,7 @@ public class Bullet {
         rec.height=HEIGHT;
         rec.width=WIDTH;
         this.dir = dir;
-        this.tf = tankFrame;
+        this.gameModel = gameModel;
         this.team = team;
         live = true;
     }
@@ -38,7 +39,7 @@ public class Bullet {
     public void paint(Graphics g) {
         if (this.live == false)//子弹死亡则把他remove掉
         {
-            tf.Bullets.remove(this);
+            gameModel.Bullets.remove(this);
         }
         switch (dir) {
             case LEFT:
@@ -82,7 +83,7 @@ public class Bullet {
             tank.die();
             int eX=tank.getX()+tank.WIDTH/2-Explode.WIDTH/2;
             int eY=tank.getY()+tank.HEIGHT/2-Explode.HEIGHT/2;
-            tf.explodes.add(new Explode(eX,eY,this.tf));
+            gameModel.explodes.add(new Explode(eX,eY,gameModel));
         }
     }
 
@@ -102,7 +103,7 @@ public class Bullet {
                 y += SPEED;
                 break;
         }
-        if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) {
+        if (x < 0 || y < 0 || x > gameModel.GAME_WIDTH || y > gameModel.GAME_HEIGHT) {
             live = false;
         }
     }

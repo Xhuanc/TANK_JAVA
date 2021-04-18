@@ -10,18 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TankFrame extends Frame {
-    Tank myTank = new Tank(100, 200, Dir.DOWN, this,1);
-
-    //    Tank enemyTank=new Tank(400,310,Dir.DOWN,this);
-    static final int GAME_WIDTH = 1080, GAME_HEIGHT = 720;
-    List<Tank_online.Bullet> Bullets = new ArrayList<Bullet>();//子弹容器用来存子弹
-    List<Tank> enemyTank = new ArrayList<>();//敌人队列
-    List<Explode> explodes=new ArrayList<>();
-
-    private static final int SPEED = 10;
-
+    GameModel gameModel =new GameModel();
     public TankFrame() {
-        setSize(GAME_WIDTH, GAME_HEIGHT);
+
+        setSize(gameModel.GAME_WIDTH, gameModel.GAME_HEIGHT);
         setResizable(false);
         setTitle("tank_war");
         addWindowListener(new WindowAdapter() {
@@ -40,35 +32,7 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        Color c = g.getColor();
-        g.setColor(Color.WHITE);
-        g.drawString("子弹的数量:" + Bullets.size(), 20, 50);
-        g.drawString("敌人的数量:" + enemyTank.size(), 20, 80);
-        g.setColor(c);
-        myTank.paint(g);//画笔给TANK
-//        enemyTank.paint(g);
-        //利用迭代器循环时，中间不可手动进行删除
-        for (int i = 0; i < Bullets.size(); i++) {//增强for循环遍历画子弹
-            Bullets.get(i).paint(g);//画笔给子弹
-//            if(Bullets.get(i).getX()<enemyTank.getX()+50&&Bullets.get(i).getY()==enemyTank.getY())
-//            {
-//                Bullets.get(i).live=false;
-//                enemyTank.live=false;
-//            }
-        }
-        for (int i = 0; i < enemyTank.size(); i++) {
-            enemyTank.get(i).paint(g);
-        }
-        for(int i=0;i<explodes.size();i++)
-        {
-            explodes.get(i).paint(g);
-        }
-        //碰撞检测
-        for (int i = 0; i < Bullets.size(); i++) {
-            for (int j = 0; j < enemyTank.size(); j++) {
-               Bullets.get(i).isHit(enemyTank.get(j));//这个子弹是否打到了地方
-            }
-        }
+      gameModel.paint(g);
     }
 
 
@@ -80,12 +44,12 @@ public class TankFrame extends Frame {
     @Override
     public void update(Graphics g) {
         if (offScreenImage == null) {
-            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+            offScreenImage = this.createImage(gameModel.GAME_WIDTH, gameModel.GAME_HEIGHT);
         }
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color c = gOffScreen.getColor();
         gOffScreen.setColor(Color.BLACK);
-        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        gOffScreen.fillRect(0, 0, gameModel.GAME_WIDTH, gameModel.GAME_HEIGHT);
         gOffScreen.setColor(c);
         paint(gOffScreen);
         g.drawImage(offScreenImage, 0, 0, null);
@@ -143,7 +107,7 @@ public class TankFrame extends Frame {
                     BR = false;
                     break;
                 case KeyEvent.VK_J:
-                    myTank.fric(myTank.team);
+                    gameModel.myTank.fric(gameModel.myTank.team);
                     new Audio("src\\Voice\\tank_fire.wav").start();
                     break;//发射子弹
             }
@@ -162,13 +126,13 @@ public class TankFrame extends Frame {
         }
 
         private void setMainTankDir() {
-            if (!BR && !BD && !BL && !BU) myTank.Move(false);
+            if (!BR && !BD && !BL && !BU) gameModel.myTank.Move(false);
             else {
-                myTank.Move(true);
-                if (BR) myTank.setDir(Dir.RIGHT);
-                if (BD) myTank.setDir(Dir.DOWN);
-                if (BL) myTank.setDir(Dir.LEFT);
-                if (BU) myTank.setDir(Dir.UP);
+                gameModel.myTank.Move(true);
+                if (BR) gameModel.myTank.setDir(Dir.RIGHT);
+                if (BD) gameModel.myTank.setDir(Dir.DOWN);
+                if (BL) gameModel.myTank.setDir(Dir.LEFT);
+                if (BU) gameModel.myTank.setDir(Dir.UP);
             }
         }
 

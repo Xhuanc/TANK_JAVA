@@ -8,10 +8,11 @@ public class Explode {
     public static final int HEIGHT=ResourceMgr.Explode[0].getHeight();
     private int x,y;
     TankFrame tf=null;
-    public Explode(int x, int y, TankFrame tf) {
+    GameModel gameModel=null;
+    public Explode(int x, int y, GameModel gameModel) {
         this.x = x;
         this.y = y;
-        this.tf = tf;
+        this.gameModel = gameModel;
     }
     public void paint(Graphics g)
     {
@@ -19,7 +20,7 @@ public class Explode {
             g.drawImage(ResourceMgr.Explode[i],x,y ,null);
         }
         new Audio("src\\Voice\\explode.wav").start();
-        tf.explodes.remove(this);
+        gameModel.explodes.remove(this);
 
     }
 }
