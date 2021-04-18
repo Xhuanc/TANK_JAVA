@@ -45,7 +45,6 @@ public class Tank extends Frame {
         this.tf = tf;
         this.y = y;
         this.dir = dir;
-        this.dir = dir;
         this.team = team;
         rec.x=x;
         rec.y=y;
