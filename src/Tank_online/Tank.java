@@ -40,7 +40,7 @@ public class Tank  extends GameObject{
     private boolean moving = true;
     private TankFrame tf = null;//存窗口引用
     private GameModel gameModel = null;//存窗口引用
-
+    private int last_x,last_y;
     public Tank(int x, int y, Dir dir,GameModel gameModel, int team) {
         this.x = x;
         this.gameModel = gameModel;
@@ -51,7 +51,9 @@ public class Tank  extends GameObject{
         rec.y=y;
         rec.height=Tank.HEIGHT;
         rec.width=Tank.WIDTH;
+
     }
+
 
     public void Move(boolean flag) {
         moving = flag;
@@ -64,9 +66,11 @@ public class Tank  extends GameObject{
     void die() {
         live = !live;
     }
-
+    void back(){x=last_x;y=last_y;}
     void move(Graphics g) {
         if (!live) gameModel.remove(this);//敌人死了
+        last_x=x;
+        last_y=y;
         Color c = g.getColor();
         switch (dir) {
             case LEFT:
@@ -116,10 +120,12 @@ public class Tank  extends GameObject{
             }
         }
 
+
     }
 
 
     public void paint(Graphics g) {
+
         move(g);
         if (random.nextInt(100) > 90 && team == 0) {
             fric(team);

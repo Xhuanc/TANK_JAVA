@@ -8,7 +8,9 @@ public class CollideChain implements  Compare{
     private List<Compare> Chain = new LinkedList<>();
 
     public CollideChain() {
-        Integer.parseInt(String.valueOf(PropertyMgr.get("collides")));
+//        Integer.parseInt(String.valueOf(PropertyMgr.get("collides")));
+    add(new Bullet_Hit_Tank());
+    add(new Tank_Hit_Tank());
     }
 
     public void add(Compare compare) {

@@ -4,3 +4,5 @@ tankSpeed=5
 bulletSpeed=10
 gameWidth=1080
 gameHeight=720
+#colliders
+colliders=Tank_online.Bullet_Hit_Tank,Tank_online.Tank_Hit_Tank

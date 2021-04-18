@@ -10,7 +10,7 @@ public class Main {
         int initTankCount=Integer.parseInt(String.valueOf(PropertyMgr.get("initTankCount")));
         for(int i=0;i<initTankCount;i++)
         {
-            tankFrame.gameModel.add(new Tank(50+i*80,200,Dir.DOWN,tankFrame.gameModel,0));
+            tankFrame.gameModel.add(new Tank(50+i*80,200+i*80,Dir.DOWN,tankFrame.gameModel,0));
         }
         new Thread(()->new Audio("audio/war1.wav")).start();
         while (true) {

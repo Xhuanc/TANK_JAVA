@@ -10,9 +10,8 @@ public class Tank_Hit_Tank implements Compare{
            Tank t1=(Tank)o1;
            Tank t2=(Tank)o2;
            if(new Rectangle(t1.getX(),t1.getY()).intersects(new Rectangle(t2.getX(),t2.getY()))) {
-               Dir dir = t1.getDir();
-               t1.setDir(t2.getDir());
-               t2.setDir(dir);
+               t1.back();
+               t2.back();
                return false;
            }
            return  false;
