@@ -1,9 +1,11 @@
 package Tank_online;
 
+import abstractfactory.BaseExplode;
+
 import java.awt.*;
 import java.lang.ref.PhantomReference;
 
-public class Explode {
+public class Explode extends BaseExplode {
     public static final int WIDTH=ResourceMgr.Explode[0].getWidth();
     public static final int HEIGHT=ResourceMgr.Explode[0].getHeight();
     private int x,y;

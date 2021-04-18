@@ -1,8 +1,10 @@
 package Tank_online;
 
+import abstractfactory.BaseBullet;
+
 import java.awt.*;
 
-public class Bullet {
+public class Bullet extends BaseBullet {
     private static final int SPEED = 10;
     private int x, y;
     int team = 0;//0为bad 1为good
@@ -34,7 +36,7 @@ public class Bullet {
         this.team = team;
         live = true;
     }
-
+@Override
     public void paint(Graphics g) {
         if (this.live == false)//子弹死亡则把他remove掉
         {

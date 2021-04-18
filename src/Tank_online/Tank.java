@@ -1,9 +1,11 @@
 package Tank_online;
 
+import abstractfactory.BaseTank;
+
 import java.awt.*;
 import java.util.Random;
 
-public class Tank extends Frame {
+public class Tank  extends BaseTank {
     private int x, y;
     int team;//0为bad 1为good
     Rectangle rec=new Rectangle();
@@ -23,12 +25,11 @@ public class Tank extends Frame {
     boolean live = true;
     private Random random = new Random();
 
-    @Override
     public int getX() {
         return x;
     }
 
-    @Override
+
     public int getY() {
         return y;
     }
@@ -117,8 +118,7 @@ public class Tank extends Frame {
         }
 
     }
-
-    @Override
+@Override
     public void paint(Graphics g) {
         move(g);
         if (random.nextInt(100) > 90 && team == 0) {
