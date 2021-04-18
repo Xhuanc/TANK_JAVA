@@ -1,6 +1,8 @@
 package Tank_online;
 
 
+import abstractfactory.*;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,10 +16,10 @@ public class TankFrame extends Frame {
 
     //    Tank enemyTank=new Tank(400,310,Dir.DOWN,this);
     static final int GAME_WIDTH = 1080, GAME_HEIGHT = 720;
-    List<Tank_online.Bullet> Bullets = new ArrayList<Bullet>();//子弹容器用来存子弹
-    List<Tank> enemyTank = new ArrayList<>();//敌人队列
-    List<Explode> explodes=new ArrayList<>();
-
+    List<BaseBullet> Bullets = new ArrayList<>();//子弹容器用来存子弹
+    List<BaseTank> enemyTank = new ArrayList<>();//敌人队列
+    List<BaseExplode> explodes=new ArrayList<>();
+    GameFactory gameFactory=new DefaultFactory();
     private static final int SPEED = 10;
 
     public TankFrame() {
@@ -66,7 +68,7 @@ public class TankFrame extends Frame {
         //碰撞检测
         for (int i = 0; i < Bullets.size(); i++) {
             for (int j = 0; j < enemyTank.size(); j++) {
-               Bullets.get(i).isHit(enemyTank.get(j));//这个子弹是否打到了地方
+               Bullets.get(i).isHit((Tank)enemyTank.get(j));//这个子弹是否打到了地方
             }
         }
     }

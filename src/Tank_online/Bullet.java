@@ -65,8 +65,8 @@ public class Bullet extends BaseBullet {
     void die() {
         live = !live;
     }
-
-    protected void isHit(Tank tank) {
+@Override
+public void isHit(Tank tank) {
 //        这是需要较大内存
 //        if (new Rectangle(this.x, this.y, WIDTH, HEIGHT).intersects(new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT)) && this.team != tank.team) {
 //            this.die();
@@ -84,7 +84,7 @@ public class Bullet extends BaseBullet {
             tank.die();
             int eX=tank.getX()+tank.WIDTH/2-Explode.WIDTH/2;
             int eY=tank.getY()+tank.HEIGHT/2-Explode.HEIGHT/2;
-            tf.explodes.add(new Explode(eX,eY,this.tf));
+            tf.explodes.add(tf.gameFactory.createExplode(eX,eY,this.tf));
         }
     }
 
