@@ -8,11 +8,12 @@ public class ResourceMgr {
     public static BufferedImage tankL,tankU,tankR,tankD,tankLD,tankLU,tankRD,tankRU,
                                 BulletL,BulletU,BulletR,BulletD,
                                 GoodTankU,GoodTankL,GoodTankR,GoodTankD,
-                                BadTankU,BadTankL,BadTankR,BadTankD;
+                                BadTankU,BadTankL,BadTankR,BadTankD,RedWall,BlueWall;
                                                         ;
     public static BufferedImage[] Explode=new BufferedImage[16];
     static {
         try {
+            BlueWall=ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images\\square2.jpg"));
             GoodTankU=ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images\\GoodTank1U.png"));
             GoodTankL=ImageUtil.rotateImage(GoodTankU,-90);
             GoodTankR=ImageUtil.rotateImage(GoodTankU,90);

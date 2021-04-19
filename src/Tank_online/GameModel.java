@@ -5,6 +5,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameModel {
     Tank myTank = new Tank(100, 200, Dir.DOWN, this,1);
@@ -15,6 +16,16 @@ public class GameModel {
     Tank_Hit_Tank tank_hit_tank = new Tank_Hit_Tank();
     CollideChain collideChain =new CollideChain();
     public GameModel() {
+        int initTankCount=Integer.parseInt(String.valueOf(PropertyMgr.get("initTankCount")));
+        Random random=new Random();
+        for(int i=0;i<initTankCount;i++)
+        {
+            add(new Tank(50+i*80,200+i*80,Dir.DOWN,this,0));
+        }
+        for(int i=0;i<initTankCount;i++)
+        {
+            add(new Wall(random.nextInt(800),random.nextInt(700),this));
+        }
     }
     public void add(GameObject go)
     {

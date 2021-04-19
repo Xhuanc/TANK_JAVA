@@ -10,7 +10,7 @@ public class CollideChain implements  Compare{
     public CollideChain() {
 //        Integer.parseInt(String.valueOf(PropertyMgr.get("collides")));
     add(new Bullet_Hit_Tank());
-    add(new Tank_Hit_Tank());
+    add(new Bullet_Hit_Wall());
     }
 
     public void add(Compare compare) {
@@ -22,7 +22,7 @@ public class CollideChain implements  Compare{
     public boolean collide(GameObject o1, GameObject o2) {
         for (int i = 0; i < Chain.size(); i++) {
            if(Chain.get(i).TouchEach(o1,o2))
-               return true;
+               break;
         }
         return false;
     }

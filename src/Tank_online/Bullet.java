@@ -20,7 +20,7 @@ public class Bullet extends GameObject{
 
 
     private TankFrame tf = null;//存窗口引用
-    private GameModel gameModel = null;//存窗口引用
+    public GameModel gameModel = null;//存窗口引用
     boolean live = true;
 
     public Bullet(int x, int y, Dir dir,  GameModel gameModel, int team) {
@@ -88,9 +88,28 @@ public class Bullet extends GameObject{
         }
         else return false;
     }
-
+    protected boolean isHit(Wall wall) {
+//        这是需要较大内存
+//        if (new Rectangle(this.x, this.y, WIDTH, HEIGHT).intersects(new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT)) && this.team != tank.team) {
+//            this.die();
+//            tank.die();
+//            int eX=tank.getX()+tank.WIDTH/2-Explode.WIDTH/2;
+//            int eY=tank.getY()+tank.HEIGHT/2-Explode.HEIGHT/2;
+//            tf.explodes.add(new Explode(eX,eY,this.tf));
+//        }
+        rec.x=this.x;
+        rec.y=this.y;
+        wall.rec.x=wall.x;
+        wall.rec.y=wall.y;
+        if (rec.intersects(wall.rec)) {
+            this.die();
+            return true;
+        }
+        else return false;
+    }
     private void move() {
-
+        rec.x=x;
+        rec.y=y;
         switch (dir) {
             case LEFT:
                 x -= SPEED;
@@ -108,6 +127,7 @@ public class Bullet extends GameObject{
         if (x < 0 || y < 0 || x > gameModel.GAME_WIDTH || y > gameModel.GAME_HEIGHT) {
             live = false;
         }
+
     }
 
 
